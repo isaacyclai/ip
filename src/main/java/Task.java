@@ -17,4 +17,8 @@ public class Task {
     public void Unmark() {
         this.isDone = false;
     }
+    @Override
+    public String toString() {
+        return "[" + getStatusIcon() + "] " + description;
+    }
 }
