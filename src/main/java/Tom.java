@@ -42,7 +42,7 @@ public class Tom {
                     Todo todo = new Todo(words[1]);
                     ls.add(todo);
                     System.out.println("Got it. I've added this task:");
-                    System.out.println(todo.toString());
+                    System.out.println("  " + todo.toString());
                     System.out.println("Now you have " + ls.size() + " tasks in the list.");
                     break;
                 case "deadline":
@@ -50,7 +50,7 @@ public class Tom {
                     Deadline dl = new Deadline(parts[0], parts[1]);
                     ls.add(dl);
                     System.out.println("Got it. I've added this task:");
-                    System.out.println(dl.toString());
+                    System.out.println("  " + dl.toString());
                     System.out.println("Now you have " + ls.size() + " tasks in the list.");
                     break;
                 case "event":
@@ -58,7 +58,7 @@ public class Tom {
                     Event e = new Event(parts1[0], parts1[1], parts1[2]);
                     ls.add(e);
                     System.out.println("Got it. I've added this task:");
-                    System.out.println(e.toString());
+                    System.out.println("  " + e.toString());
                     System.out.println("Now you have " + ls.size() + " tasks in the list.");
                     break;
                 default:
