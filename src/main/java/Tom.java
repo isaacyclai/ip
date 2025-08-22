@@ -94,6 +94,19 @@ public class Tom {
                     System.out.println("  " + e.toString());
                     System.out.println("Now you have " + ls.size() + " tasks in the list.");
                     break;
+                case "delete":
+                    if (words.length != 2) {
+                        throw new TomException("1 task required to delete");
+                    }
+                    if (!Character.isDigit(words[1].charAt(0))) {
+                        throw new TomException("Task must be a positive integer");
+                    }
+                    Task removed = ls.get(Integer.valueOf(words[1]));
+                    ls.remove(removed);
+                    System.out.println("Noted. I've removed this task:");
+                    System.out.println("  " + removed.toString());
+                    System.out.println("Now you have " + ls.size() + " tasks in the list.");
+                    break;
                 default:
                     throw new TomException("Command not found!");
             }
