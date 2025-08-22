@@ -2,13 +2,6 @@ import java.util.Scanner;
 import java.util.ArrayList;
 public class Tom {
     public static void main(String[] args) throws TomException {
-//        String logo = " _____ ____  __  __ \n" +
-//                "|_   _/ __ \\|  \\/  |\n" +
-//                "  | || |  | | \\  / |\n" +
-//                "  | || |__| | |\\/| |\n" +
-//                "  |_| \\____/|_|  |_|";
-//        System.out.println("Hello from\n" + logo);
-//        String line = "____________________________________________________________";
         System.out.println("Hello! I'm Tom.\nWhat can I do for you?");
         ArrayList<Task> ls = new ArrayList<>();
         while(true) {
