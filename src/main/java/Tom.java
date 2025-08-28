@@ -1,6 +1,9 @@
 import java.io.*;
 import java.util.Scanner;
 import java.util.ArrayList;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 
 public class Tom {
     public static void main(String[] args) throws TomException, IOException {
@@ -13,6 +16,10 @@ public class Tom {
         BufferedReader br = new BufferedReader(new FileReader(file));
         ArrayList<Task> ls = new ArrayList<>();
         String line = null;
+
+        DateTimeFormatter input_formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm");
+        DateTimeFormatter output_formatter = DateTimeFormatter.ofPattern("MMM dd yyyy, hh:mm a");
+
         while ((line = br.readLine()) != null) {
             String[] arr = line.split("\\|"); // type | marked | desc | by/from | to
             if (arr.length == 3) {
@@ -23,14 +30,17 @@ public class Tom {
                 ls.add(tmp);
             }
             else if (arr.length == 4) {
-                Deadline tmp = new Deadline(arr[2].strip(), arr[3].strip());
+                LocalDateTime by = LocalDateTime.parse(arr[3].strip(), output_formatter);
+                Deadline tmp = new Deadline(arr[2].strip(), by);
                 if (arr[1].strip().equals("1")) {
                     tmp.Mark();
                 }
                 ls.add(tmp);
             }
             else if (arr.length == 5) {
-                Event tmp = new Event(arr[2].strip(), arr[3].strip(), arr[4].strip());
+                LocalDateTime from = LocalDateTime.parse(arr[3].strip(), output_formatter);
+                LocalDateTime to = LocalDateTime.parse(arr[4].strip(), output_formatter);
+                Event tmp = new Event(arr[2].strip(), from, to);
                 if (arr[1].strip().equals("1")) {
                     tmp.Mark();
                 }
@@ -109,7 +119,8 @@ public class Tom {
                     if (parts.length != 2) {
                         throw new TomException("Deadline requires a date by which the task must be completed");
                     }
-                    Deadline dl = new Deadline(parts[0].strip(), parts[1].strip());
+                    LocalDateTime by = LocalDateTime.parse(parts[1].strip(), input_formatter);
+                    Deadline dl = new Deadline(parts[0].strip(), by);
                     ls.add(dl);
                     writeLines(file, ls);
                     printAddMessage(dl, ls.size());
@@ -122,7 +133,9 @@ public class Tom {
                     if (parts1.length != 3) {
                         throw new TomException("Event requires a description, start and end dates");
                     }
-                    Event e = new Event(parts1[0].strip(), parts1[1].strip(), parts1[2].strip());
+                    LocalDateTime from = LocalDateTime.parse(parts1[1].strip(), input_formatter);
+                    LocalDateTime to = LocalDateTime.parse(parts1[2].strip(), input_formatter);
+                    Event e = new Event(parts1[0].strip(), from, to);
                     ls.add(e);
                     writeLines(file, ls);
                     printAddMessage(e, ls.size());
