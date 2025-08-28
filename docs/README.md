@@ -1,4 +1,4 @@
-# Tom User Guide
+# tom User Guide
 
 // Update the title above to match the actual product name
 

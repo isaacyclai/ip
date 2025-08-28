@@ -1,9 +1,11 @@
+package tom;
+
 import java.io.IOException;
 import java.util.ArrayList;
 
 public class Ui {
     public void greet() {
-        System.out.println("Hello! I'm Tom.\nWhat can I do for you?");
+        System.out.println("Hello! I'm tom.Tom.\nWhat can I do for you?");
     }
 
     public void bye() {
