@@ -1,29 +1,70 @@
+import java.io.*;
 import java.util.Scanner;
 import java.util.ArrayList;
+
 public class Tom {
-    public static void main(String[] args) throws TomException {
-        System.out.println("Hello! I'm Tom.\nWhat can I do for you?");
+    public static void main(String[] args) throws TomException, IOException {
+        String home = System.getProperty("user.home");
+        java.nio.file.Path path = java.nio.file.Paths.get(home, "ip", "data", "tom.txt");
+        File file = path.toFile();
+        file.getParentFile().mkdirs();
+        file.createNewFile();
+
+        BufferedReader br = new BufferedReader(new FileReader(file));
         ArrayList<Task> ls = new ArrayList<>();
-        while(true) {
+        String line = null;
+        while ((line = br.readLine()) != null) {
+            String[] arr = line.split("\\|"); // type | marked | desc | by/from | to
+            if (arr.length == 3) {
+                Todo tmp = new Todo(arr[2].strip());
+                if (arr[1].strip().equals("1")) {
+                    tmp.Mark();
+                }
+                ls.add(tmp);
+            }
+            else if (arr.length == 4) {
+                Deadline tmp = new Deadline(arr[2].strip(), arr[3].strip());
+                if (arr[1].strip().equals("1")) {
+                    tmp.Mark();
+                }
+                ls.add(tmp);
+            }
+            else if (arr.length == 5) {
+                Event tmp = new Event(arr[2].strip(), arr[3].strip(), arr[4].strip());
+                if (arr[1].strip().equals("1")) {
+                    tmp.Mark();
+                }
+                ls.add(tmp);
+            }
+            else {
+                throw new TomException("Line is not in the correct format");
+            }
+        }
+
+        System.out.println("Hello! I'm Tom.\nWhat can I do for you?");
+
+        while (true) {
             Scanner sc = new Scanner(System.in);
             String input = sc.nextLine();
             String[] words = input.split("\\s+", 2);
             String command = words[0];
             switch(command) {
                 case "bye":
-                    if(words.length != 1) {
+                    if (words.length != 1) {
                         throw new TomException("Bye takes no description");
                     }
+                    writeLines(file, ls);
                     System.out.println("Bye. Hope to see you again soon!");
                     break;
                 case "list":
-                    if(words.length != 1) {
+                    if (words.length != 1) {
                         throw new TomException("list takes no description");
                     }
                     System.out.println("Here are the tasks in your list:");
-                    for(int i = 0; i < ls.size(); i++) {
+                    for (int i = 0; i < ls.size(); i++) {
                         System.out.println((i+1) + "." + ls.get(i).toString());
                     }
+                    writeLines(file, ls);
                     break;
                 case "mark":
                     if (words.length != 2) {
@@ -32,8 +73,9 @@ public class Tom {
                     if (!Character.isDigit(words[1].charAt(0))) {
                         throw new TomException("Task must be a positive integer");
                     }
-                    Task cur = ls.get(Integer.valueOf(words[1]));
+                    Task cur = ls.get(Integer.parseInt(words[1])-1);
                     cur.Mark();
+                    writeLines(file, ls);
                     System.out.println("Nice! I've marked this task as done:");
                     System.out.println("  [X] " + cur.description);
                     break;
@@ -44,8 +86,9 @@ public class Tom {
                     if (!Character.isDigit(words[1].charAt(0))) {
                         throw new TomException("Task must be a positive integer");
                     }
-                    Task cur1 = ls.get(Integer.valueOf(words[1]));
+                    Task cur1 = ls.get(Integer.parseInt(words[1])-1);
                     cur1.Unmark();
+                    writeLines(file, ls);
                     System.out.println("OK, I've marked this task as not done yet:");
                     System.out.println("  [ ] " + cur1.description);
                     break;
@@ -53,11 +96,10 @@ public class Tom {
                     if (words.length != 2) {
                         throw new TomException("Todo requires a description");
                     }
-                    Todo todo = new Todo(words[1]);
+                    Todo todo = new Todo(words[1].strip());
                     ls.add(todo);
-                    System.out.println("Got it. I've added this task:");
-                    System.out.println("  " + todo.toString());
-                    System.out.println("Now you have " + ls.size() + " tasks in the list.");
+                    writeLines(file, ls);
+                    printAddMessage(todo, ls.size());
                     break;
                 case "deadline":
                     if (words.length != 2) {
@@ -67,11 +109,10 @@ public class Tom {
                     if (parts.length != 2) {
                         throw new TomException("Deadline requires a date by which the task must be completed");
                     }
-                    Deadline dl = new Deadline(parts[0], parts[1]);
+                    Deadline dl = new Deadline(parts[0].strip(), parts[1].strip());
                     ls.add(dl);
-                    System.out.println("Got it. I've added this task:");
-                    System.out.println("  " + dl.toString());
-                    System.out.println("Now you have " + ls.size() + " tasks in the list.");
+                    writeLines(file, ls);
+                    printAddMessage(dl, ls.size());
                     break;
                 case "event":
                     if (words.length != 2) {
@@ -81,11 +122,10 @@ public class Tom {
                     if (parts1.length != 3) {
                         throw new TomException("Event requires a description, start and end dates");
                     }
-                    Event e = new Event(parts1[0], parts1[1], parts1[2]);
+                    Event e = new Event(parts1[0].strip(), parts1[1].strip(), parts1[2].strip());
                     ls.add(e);
-                    System.out.println("Got it. I've added this task:");
-                    System.out.println("  " + e.toString());
-                    System.out.println("Now you have " + ls.size() + " tasks in the list.");
+                    writeLines(file, ls);
+                    printAddMessage(e, ls.size());
                     break;
                 case "delete":
                     if (words.length != 2) {
@@ -94,8 +134,9 @@ public class Tom {
                     if (!Character.isDigit(words[1].charAt(0))) {
                         throw new TomException("Task must be a positive integer");
                     }
-                    Task removed = ls.get(Integer.valueOf(words[1]));
+                    Task removed = ls.get(Integer.parseInt(words[1])-1);
                     ls.remove(removed);
+                    writeLines(file, ls);
                     System.out.println("Noted. I've removed this task:");
                     System.out.println("  " + removed.toString());
                     System.out.println("Now you have " + ls.size() + " tasks in the list.");
@@ -103,10 +144,23 @@ public class Tom {
                 default:
                     throw new TomException("Command not found!");
             }
-            if(command.equals("bye")) {
+            if (command.equals("bye")) {
                 break;
             }
         }
+    }
 
+    public static void printAddMessage(Task task, Integer tasks) throws IOException {
+        System.out.println("Got it. I've added this task:");
+        System.out.println("  " + task.toString());
+        System.out.println("Now you have " + tasks + " tasks in the list.");
+    }
+
+    public static void writeLines(File file, ArrayList<Task> ls) throws IOException {
+        FileWriter fw = new FileWriter(file);
+        for (Task l : ls) {
+            fw.write(l.saveDesc() + "\n");
+        }
+        fw.close();
     }
 }
