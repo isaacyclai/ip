@@ -1,0 +1,26 @@
+package tom;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
+public class Deadline extends Task {
+
+    protected LocalDateTime by;
+
+    public Deadline(String description, LocalDateTime by) {
+        super(description);
+        super.id = "D";
+        this.by = by;
+    }
+
+    @Override
+    public String saveDesc() {
+        DateTimeFormatter output_formatter = DateTimeFormatter.ofPattern("MMM dd yyyy, hh:mm a");
+        return super.saveDesc() + " | " + by.format(output_formatter);
+    }
+
+    @Override
+    public String toString() {
+        return "[D]" + super.toString() + " (by: " + by.format(DateTimeFormatter.ofPattern("MMM dd yyyy, hh:mm a")) + ")";
+    }
+}
