@@ -3,8 +3,10 @@ package tom;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+/**
+ * Represents a task that has to be completed by a certain date.
+ */
 public class Deadline extends Task {
-
     protected LocalDateTime by;
 
     public Deadline(String description, LocalDateTime by) {

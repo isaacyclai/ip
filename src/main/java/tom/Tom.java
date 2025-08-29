@@ -5,6 +5,9 @@ import java.io.*;
 import java.util.Optional;
 import java.util.Scanner;
 
+/**
+ * Represents a chatbot to help with keeping track of tasks to be done.
+ */
 public class Tom {
     private Storage storage;
     private TaskList ls;
@@ -15,7 +18,7 @@ public class Tom {
         storage = new Storage(path);
         ls = new TaskList(storage.load());
     }
-
+    
     public void run() throws TomException, IOException {
         ui.greet();
         while (true) {

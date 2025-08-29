@@ -5,6 +5,9 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 
+/**
+ * Processes the user's input.
+ */
 public class Parser {
     private final String command;
     private final String[] words;
@@ -15,6 +18,13 @@ public class Parser {
         this.words = line;
     }
 
+    /**
+     * Returns a pair consisting of the command given by the user and a pair of Optionals.
+     * The first Optional is the task number for add/delete/mark/unmark commands, while the second is the new task to
+     * be added for the other commands.
+     * @return Command, task number, and new task.
+     * @throws TomException If command is invalid.
+     */
     public Pair<String, Pair<Optional<Integer>, Optional<Task>>> parse() throws TomException {
         Optional<Task> task = Optional.empty();
         Optional<Integer> idx = Optional.empty();

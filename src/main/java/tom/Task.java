@@ -1,5 +1,8 @@
 package tom;
 
+/**
+ * Represents a task with a description and a flag denoting if it has been done.
+ */
 public class Task {
     protected String description;
     protected boolean isDone;
@@ -22,6 +25,10 @@ public class Task {
         this.isDone = false;
     }
     public String getId() {return this.id;}
+    /**
+     * Returns a description of the Task in the correct format to be stored in the text file.
+     * @return Formatted string.
+     */
     public String saveDesc() {
         return id + " | " + (isDone ? "1 | " : "0 | ") + description;
     }

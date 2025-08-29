@@ -3,6 +3,9 @@ package tom;
 import java.io.IOException;
 import java.util.ArrayList;
 
+/**
+ * Represents the list of tasks to be done by the user.
+ */
 public class TaskList {
     private ArrayList<Task> ls;
 

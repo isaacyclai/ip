@@ -5,6 +5,9 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
+/**
+ * Handles input from and output to the text file where the task list is saved.
+ */
 public class Storage {
     private static java.nio.file.Path path;
 
@@ -12,6 +15,12 @@ public class Storage {
         this.path = path;
     }
 
+    /**
+     * Loads the list of tasks (if any) from the existing text file.
+     * @return Existing task list.
+     * @throws TomException If the text file exists and is corrupted.
+     * @throws IOException If the FileReader encounters an exception.
+     */
     public ArrayList<Task> load() throws TomException, IOException {
         File file = path.toFile();
         file.getParentFile().mkdirs();
@@ -55,6 +64,11 @@ public class Storage {
         return ls;
     }
 
+    /**
+     * Writes each task in the list to the text file in the correct format.
+     * @param ls List of tasks.
+     * @throws IOException If the FileWriter encounters an exception.
+     */
     public static void writeLines(ArrayList<Task> ls) throws IOException {
         FileWriter fw = new FileWriter(path.toFile());
         for (Task l : ls) {

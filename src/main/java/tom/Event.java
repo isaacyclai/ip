@@ -3,6 +3,9 @@ package tom;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+/**
+ * Represents a task that takes place from a given time to another.
+ */
 public class Event extends Task {
     protected LocalDateTime from;
     protected LocalDateTime to;
