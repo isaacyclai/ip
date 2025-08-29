@@ -7,8 +7,8 @@ import java.time.format.DateTimeFormatter;
  * Represents a task that takes place from a given time to another.
  */
 public class Event extends Task {
-    protected LocalDateTime from;
-    protected LocalDateTime to;
+    private final LocalDateTime from;
+    private final LocalDateTime to;
 
     public Event(String description, LocalDateTime from, LocalDateTime to) {
         super(description);
@@ -19,13 +19,14 @@ public class Event extends Task {
 
     @Override
     public String saveDesc() {
-        DateTimeFormatter output_formatter = DateTimeFormatter.ofPattern("MMM dd yyyy, hh:mm a");
-        return super.saveDesc() + " | " + from.format(output_formatter) + " | " + to.format(output_formatter);
+        DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern("MMM dd yyyy, hh:mm a");
+        return super.saveDesc() + " | " + from.format(outputFormatter) + " | " + to.format(outputFormatter);
     }
 
     @Override
     public String toString() {
-        DateTimeFormatter output_formatter = DateTimeFormatter.ofPattern("MMM dd yyyy, hh:mm a");
-        return "[E]" + super.toString() + " (from: " + from.format(output_formatter) + " to: " + to.format(output_formatter) + ")";
+        DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern("MMM dd yyyy, hh:mm a");
+        return "[E]" + super.toString() + " (from: " + from.format(outputFormatter) + " to: "
+                + to.format(outputFormatter) + ")";
     }
 }

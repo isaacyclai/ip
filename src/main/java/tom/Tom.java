@@ -18,7 +18,7 @@ public class Tom {
         storage = new Storage(path);
         ls = new TaskList(storage.load());
     }
-    
+
     public void run() throws TomException, IOException {
         ui.greet();
         while (true) {
@@ -34,31 +34,31 @@ public class Tom {
             Storage.writeLines(ls.getTasks());
 
             switch(command) {
-                case "bye":
-                    Storage.writeLines(ls.getTasks());
-                    ui.bye();
-                    break;
-                case "list":
-                    ls.list();
-                    Storage.writeLines(ls.getTasks());
-                    break;
-                case "mark":
-                    ls.mark(idx);
-                    Storage.writeLines(ls.getTasks());
-                    break;
-                case "unmark":
-                    ls.unmark(idx);
-                    Storage.writeLines(ls.getTasks());
-                    break;
-                case "todo", "deadline", "event":
-                    ls.add(task);
-                    Storage.writeLines(ls.getTasks());
-                    ui.add(task, ls);
-                    break;
-                case "delete":
-                    ls.delete(idx);
-                    Storage.writeLines(ls.getTasks());
-                    break;
+            case "bye":
+                Storage.writeLines(ls.getTasks());
+                ui.bye();
+                break;
+            case "list":
+                ls.list();
+                Storage.writeLines(ls.getTasks());
+                break;
+            case "mark":
+                ls.mark(idx);
+                Storage.writeLines(ls.getTasks());
+                break;
+            case "unmark":
+                ls.unmark(idx);
+                Storage.writeLines(ls.getTasks());
+                break;
+            case "todo", "deadline", "event":
+                ls.add(task);
+                Storage.writeLines(ls.getTasks());
+                ui.add(task, ls);
+                break;
+            case "delete":
+                ls.delete(idx);
+                Storage.writeLines(ls.getTasks());
+                break;
             }
             if (command.equals("bye")) {
                 break;

@@ -28,7 +28,7 @@ public class Storage {
 
         BufferedReader br = new BufferedReader(new FileReader(file));
         ArrayList<Task> ls = new ArrayList<>();
-        DateTimeFormatter output_formatter = DateTimeFormatter.ofPattern("MMM dd yyyy, hh:mm a");
+        DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern("MMM dd yyyy, hh:mm a");
 
         String line = null;
         while ((line = br.readLine()) != null) {
@@ -41,7 +41,7 @@ public class Storage {
                 ls.add(tmp);
             }
             else if (arr.length == 4) {
-                LocalDateTime by = LocalDateTime.parse(arr[3].strip(), output_formatter);
+                LocalDateTime by = LocalDateTime.parse(arr[3].strip(), outputFormatter);
                 Deadline tmp = new Deadline(arr[2].strip(), by);
                 if (arr[1].strip().equals("1")) {
                     tmp.Mark();
@@ -49,8 +49,8 @@ public class Storage {
                 ls.add(tmp);
             }
             else if (arr.length == 5) {
-                LocalDateTime from = LocalDateTime.parse(arr[3].strip(), output_formatter);
-                LocalDateTime to = LocalDateTime.parse(arr[4].strip(), output_formatter);
+                LocalDateTime from = LocalDateTime.parse(arr[3].strip(), outputFormatter);
+                LocalDateTime to = LocalDateTime.parse(arr[4].strip(), outputFormatter);
                 Event tmp = new Event(arr[2].strip(), from, to);
                 if (arr[1].strip().equals("1")) {
                     tmp.Mark();

@@ -17,8 +17,8 @@ public class Deadline extends Task {
 
     @Override
     public String saveDesc() {
-        DateTimeFormatter output_formatter = DateTimeFormatter.ofPattern("MMM dd yyyy, hh:mm a");
-        return super.saveDesc() + " | " + by.format(output_formatter);
+        DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern("MMM dd yyyy, hh:mm a");
+        return super.saveDesc() + " | " + by.format(outputFormatter);
     }
 
     @Override

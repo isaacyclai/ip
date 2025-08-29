@@ -24,7 +24,6 @@ public class Task {
     public void Unmark() {
         this.isDone = false;
     }
-    public String getId() {return this.id;}
     /**
      * Returns a description of the Task in the correct format to be stored in the text file.
      * @return Formatted string.
