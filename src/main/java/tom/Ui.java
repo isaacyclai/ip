@@ -76,4 +76,16 @@ public class Ui {
         System.out.println("OK, I've marked this task as not done yet:");
         System.out.println("  [ ] " + task.description);
     }
+
+    /**
+     * Prints message to be displayed when tasks are found.
+     * @param ls List of tasks found.
+     * @throws IOException If user input is invalid.
+     */
+    public static void find(ArrayList<Task> ls) throws IOException {
+        System.out.println("Here are the matching tasks in your list:");
+        for (int i = 0; i < ls.size(); i++) {
+            System.out.println((i+1) + "." + ls.get(i).toString());
+        }
+    }
 }

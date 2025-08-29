@@ -3,6 +3,7 @@ package tom;
 import javafx.util.Pair;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Optional;
 
 /**
@@ -19,16 +20,18 @@ public class Parser {
     }
 
     /**
-     * Returns a pair consisting of the command given by the user and a pair of Optionals.
-     * The first Optional is the task number for add/delete/mark/unmark commands, while the second is the new task to
-     * be added for the other commands.
+     * Returns a pair consisting of two pairs.
+     * The first pair contains the command given by the user and the rest of the input.
+     * The second pair consists of two Optionals. The first Optional is the task number for
+     * add/delete/mark/unmark commands, while the second is the new task to be added for the other commands.
      * @return Command, task number, and new task.
      * @throws TomException If command is invalid.
      */
-    public Pair<String, Pair<Optional<Integer>, Optional<Task>>> parse() throws TomException {
+    public Pair<Pair<String, String>, Pair<Optional<Integer>, Optional<Task>>> parse() throws TomException {
         Optional<Task> task = Optional.empty();
         Optional<Integer> idx = Optional.empty();
         DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm");
+        String args = "";
         switch(command) {
         case "bye":
             if (words.length != 1) {
@@ -45,7 +48,7 @@ public class Parser {
                 throw new TomException("1 task required to mark");
             }
             if (!Character.isDigit(words[1].strip().charAt(0))) {
-                throw new TomException("tom.Task must be a positive integer");
+                throw new TomException("Task must be a positive integer");
             }
             idx = Optional.of(Integer.parseInt(words[1].strip()));
             break;
@@ -54,34 +57,34 @@ public class Parser {
                 throw new TomException("1 task required to unmark");
             }
             if (!Character.isDigit(words[1].strip().charAt(0))) {
-                throw new TomException("tom.Task must be a positive integer");
+                throw new TomException("Task must be a positive integer");
             }
             idx = Optional.of(Integer.parseInt(words[1].strip()));
             break;
         case "todo":
             if (words.length != 2) {
-                throw new TomException("tom.Todo requires a description");
+                throw new TomException("Todo requires a description");
             }
             task = Optional.of(new Todo(words[1].strip()));
             break;
         case "deadline":
             if (words.length != 2) {
-                throw new TomException("tom.Deadline requires a date by which the task must be completed");
+                throw new TomException("Deadline requires a date by which the task must be completed");
             }
             String[] parts = words[1].split("/by");
             if (parts.length != 2) {
-                throw new TomException("tom.Deadline requires a date by which the task must be completed");
+                throw new TomException("Deadline requires a date by which the task must be completed");
             }
             LocalDateTime by = LocalDateTime.parse(parts[1].strip(), inputFormatter);
             task = Optional.of(new Deadline(parts[0].strip(), by));
             break;
         case "event":
             if (words.length != 2) {
-                throw new TomException("tom.Event requires a description, start and end dates");
+                throw new TomException("Event requires a description, start and end dates");
             }
             String[] parts1 = words[1].split("/from|/to");
             if (parts1.length != 3) {
-                throw new TomException("tom.Event requires a description, start and end dates");
+                throw new TomException("Event requires a description, start and end dates");
             }
             LocalDateTime from = LocalDateTime.parse(parts1[1].strip(), inputFormatter);
             LocalDateTime to = LocalDateTime.parse(parts1[2].strip(), inputFormatter);
@@ -92,13 +95,16 @@ public class Parser {
                 throw new TomException("1 task required to delete");
             }
             if (!Character.isDigit(words[1].strip().charAt(0))) {
-                throw new TomException("tom.Task must be a positive integer");
+                throw new TomException("Task must be a positive integer");
             }
             idx = Optional.of(Integer.parseInt(words[1].strip()));
+            break;
+        case "find":
+            args = words[1].strip();
             break;
         default:
             throw new TomException("Command not found!");
         }
-        return new Pair<>(command, new Pair<>(idx, task));
+        return new Pair<>(new Pair<>(command, args), new Pair<>(idx, task));
     }
 }

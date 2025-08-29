@@ -24,27 +24,33 @@ public class TaskList {
 
     public void add(Task task) throws IOException {
         ls.add(task);
-        Storage.writeLines(ls);
     }
 
     public void delete(int n) throws IOException {
         Task removed = ls.get(n-1);
         ls.remove(removed);
-        Storage.writeLines(ls);
         Ui.delete(removed, ls);
     }
 
     public void mark(int n) throws IOException {
         Task cur = ls.get(n-1);
         cur.Mark();
-        Storage.writeLines(ls);
         Ui.mark(cur);
     }
 
     public void unmark(int n) throws IOException {
         Task cur = ls.get(n-1);
         cur.Unmark();
-        Storage.writeLines(ls);
         Ui.unmark(cur);
+    }
+
+    public void find(String keyword) throws IOException {
+        ArrayList<Task> found = new ArrayList<>();
+        for (Task t : ls) {
+            if (t.description.contains(keyword)) {
+                found.add(t);
+            }
+        }
+        Ui.find(found);
     }
 }

@@ -2,6 +2,7 @@ package tom;
 
 import javafx.util.Pair;
 import java.io.*;
+import java.util.ArrayList;
 import java.util.Optional;
 import java.util.Scanner;
 
@@ -26,8 +27,8 @@ public class Tom {
             String input = sc.nextLine();
 
             Parser parser = new Parser(input);
-            Pair<String, Pair<Optional<Integer>, Optional<Task>>> p = parser.parse();
-            String command = p.getKey();
+            Pair<Pair<String, String>, Pair<Optional<Integer>, Optional<Task>>> p = parser.parse();
+            String command = p.getKey().getKey();
             int idx = p.getValue().getKey().orElse(-1);
             Task task = p.getValue().getValue().orElse(new Task("NA"));
 
@@ -57,6 +58,10 @@ public class Tom {
                 break;
             case "delete":
                 ls.delete(idx);
+                Storage.writeLines(ls.getTasks());
+                break;
+            case "find":
+                ls.find(p.getKey().getValue());
                 Storage.writeLines(ls.getTasks());
                 break;
             }
