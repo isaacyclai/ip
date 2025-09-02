@@ -1,23 +1,23 @@
 package tom;
 
-import javafx.util.Pair;
-import java.io.*;
-import java.util.ArrayList;
+import java.io.IOException;
 import java.util.Optional;
 import java.util.Scanner;
+
+import javafx.util.Pair;
 
 /**
  * Represents a chatbot to help with keeping track of tasks to be done.
  */
 public class Tom {
     private Storage storage;
-    private TaskList ls;
+    private TaskList taskList;
     private Ui ui;
 
     public Tom(java.nio.file.Path path) throws TomException, IOException {
         ui = new Ui();
         storage = new Storage(path);
-        ls = new TaskList(storage.load());
+        taskList = new TaskList(storage.load());
     }
 
     public void run() throws TomException, IOException {
@@ -32,38 +32,40 @@ public class Tom {
             int idx = p.getValue().getKey().orElse(-1);
             Task task = p.getValue().getValue().orElse(new Task("NA"));
 
-            Storage.writeLines(ls.getTasks());
+            Storage.writeLines(taskList.getTasks());
 
             switch(command) {
             case "bye":
-                Storage.writeLines(ls.getTasks());
+                Storage.writeLines(taskList.getTasks());
                 ui.bye();
                 break;
             case "list":
-                ls.list();
-                Storage.writeLines(ls.getTasks());
+                taskList.list();
+                Storage.writeLines(taskList.getTasks());
                 break;
             case "mark":
-                ls.mark(idx);
-                Storage.writeLines(ls.getTasks());
+                taskList.mark(idx);
+                Storage.writeLines(taskList.getTasks());
                 break;
             case "unmark":
-                ls.unmark(idx);
-                Storage.writeLines(ls.getTasks());
+                taskList.unmark(idx);
+                Storage.writeLines(taskList.getTasks());
                 break;
             case "todo", "deadline", "event":
-                ls.add(task);
-                Storage.writeLines(ls.getTasks());
-                ui.add(task, ls);
+                taskList.add(task);
+                Storage.writeLines(taskList.getTasks());
+                ui.add(task, taskList);
                 break;
             case "delete":
-                ls.delete(idx);
-                Storage.writeLines(ls.getTasks());
+                taskList.delete(idx);
+                Storage.writeLines(taskList.getTasks());
                 break;
             case "find":
-                ls.find(p.getKey().getValue());
-                Storage.writeLines(ls.getTasks());
+                taskList.find(p.getKey().getValue());
+                Storage.writeLines(taskList.getTasks());
                 break;
+            default:
+                throw new TomException("Unknown command");
             }
             if (command.equals("bye")) {
                 break;

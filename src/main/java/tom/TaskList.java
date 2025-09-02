@@ -7,46 +7,46 @@ import java.util.ArrayList;
  * Represents the list of tasks to be done by the user.
  */
 public class TaskList {
-    private ArrayList<Task> ls;
+    private ArrayList<Task> taskList;
 
     public TaskList(ArrayList<Task> tasks) {
-        this.ls = tasks;
+        this.taskList = tasks;
     }
 
     public ArrayList<Task> getTasks() {
-        return ls;
+        return taskList;
     }
 
     public void list() throws IOException {
-        Ui.list(ls);
-        Storage.writeLines(ls);
+        Ui.list(taskList);
+        Storage.writeLines(taskList);
     }
 
-    public void add(Task task) throws IOException {
-        ls.add(task);
+    public void add(Task task) {
+        taskList.add(task);
     }
 
-    public void delete(int n) throws IOException {
-        Task removed = ls.get(n-1);
-        ls.remove(removed);
-        Ui.delete(removed, ls);
+    public void delete(int n) {
+        Task removed = taskList.get(n - 1);
+        taskList.remove(removed);
+        Ui.delete(removed, taskList);
     }
 
-    public void mark(int n) throws IOException {
-        Task cur = ls.get(n-1);
-        cur.Mark();
+    public void mark(int n) {
+        Task cur = taskList.get(n - 1);
+        cur.mark();
         Ui.mark(cur);
     }
 
-    public void unmark(int n) throws IOException {
-        Task cur = ls.get(n-1);
-        cur.Unmark();
+    public void unmark(int n) {
+        Task cur = taskList.get(n - 1);
+        cur.unmark();
         Ui.unmark(cur);
     }
 
-    public void find(String keyword) throws IOException {
+    public void find(String keyword) {
         ArrayList<Task> found = new ArrayList<>();
-        for (Task t : ls) {
+        for (Task t : taskList) {
             if (t.description.contains(keyword)) {
                 found.add(t);
             }

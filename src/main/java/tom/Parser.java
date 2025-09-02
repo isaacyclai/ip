@@ -1,10 +1,10 @@
 package tom;
 
-import javafx.util.Pair;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.Optional;
+
+import javafx.util.Pair;
 
 /**
  * Processes the user's input.

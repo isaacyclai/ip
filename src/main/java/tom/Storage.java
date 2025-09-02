@@ -1,6 +1,10 @@
 package tom;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -36,28 +40,25 @@ public class Storage {
             if (arr.length == 3) {
                 Todo tmp = new Todo(arr[2].strip());
                 if (arr[1].strip().equals("1")) {
-                    tmp.Mark();
+                    tmp.mark();
                 }
                 ls.add(tmp);
-            }
-            else if (arr.length == 4) {
+            } else if (arr.length == 4) {
                 LocalDateTime by = LocalDateTime.parse(arr[3].strip(), outputFormatter);
                 Deadline tmp = new Deadline(arr[2].strip(), by);
                 if (arr[1].strip().equals("1")) {
-                    tmp.Mark();
+                    tmp.mark();
                 }
                 ls.add(tmp);
-            }
-            else if (arr.length == 5) {
+            } else if (arr.length == 5) {
                 LocalDateTime from = LocalDateTime.parse(arr[3].strip(), outputFormatter);
                 LocalDateTime to = LocalDateTime.parse(arr[4].strip(), outputFormatter);
                 Event tmp = new Event(arr[2].strip(), from, to);
                 if (arr[1].strip().equals("1")) {
-                    tmp.Mark();
+                    tmp.mark();
                 }
                 ls.add(tmp);
-            }
-            else {
+            } else {
                 throw new TomException("Line is not in the correct format");
             }
         }
