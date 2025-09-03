@@ -31,7 +31,7 @@ public class Storage {
         file.createNewFile();
 
         BufferedReader br = new BufferedReader(new FileReader(file));
-        ArrayList<Task> ls = new ArrayList<>();
+        ArrayList<Task> taskList = new ArrayList<>();
         DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern("MMM dd yyyy, hh:mm a");
 
         String line = null;
@@ -42,14 +42,14 @@ public class Storage {
                 if (arr[1].strip().equals("1")) {
                     tmp.mark();
                 }
-                ls.add(tmp);
+                taskList.add(tmp);
             } else if (arr.length == 4) {
                 LocalDateTime by = LocalDateTime.parse(arr[3].strip(), outputFormatter);
                 Deadline tmp = new Deadline(arr[2].strip(), by);
                 if (arr[1].strip().equals("1")) {
                     tmp.mark();
                 }
-                ls.add(tmp);
+                taskList.add(tmp);
             } else if (arr.length == 5) {
                 LocalDateTime from = LocalDateTime.parse(arr[3].strip(), outputFormatter);
                 LocalDateTime to = LocalDateTime.parse(arr[4].strip(), outputFormatter);
@@ -57,12 +57,12 @@ public class Storage {
                 if (arr[1].strip().equals("1")) {
                     tmp.mark();
                 }
-                ls.add(tmp);
+                taskList.add(tmp);
             } else {
                 throw new TomException("Line is not in the correct format");
             }
         }
-        return ls;
+        return taskList;
     }
 
     /**
