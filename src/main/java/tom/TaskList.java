@@ -17,40 +17,41 @@ public class TaskList {
         return taskList;
     }
 
-    public void list() throws IOException {
-        Ui.list(taskList);
+    public String list() throws IOException {
         Storage.writeLines(taskList);
+        return Ui.list(taskList);
     }
 
-    public void add(Task task) {
+    public String add(Task task) {
         taskList.add(task);
+        return Ui.add(task, this);
     }
 
-    public void delete(int n) {
+    public String delete(int n) {
         Task removed = taskList.get(n - 1);
         taskList.remove(removed);
-        Ui.delete(removed, taskList);
+        return Ui.delete(removed, taskList);
     }
 
-    public void mark(int n) {
+    public String mark(int n) {
         Task cur = taskList.get(n - 1);
         cur.mark();
-        Ui.mark(cur);
+        return Ui.mark(cur);
     }
 
-    public void unmark(int n) {
+    public String unmark(int n) {
         Task cur = taskList.get(n - 1);
         cur.unmark();
-        Ui.unmark(cur);
+        return Ui.unmark(cur);
     }
 
-    public void find(String keyword) {
+    public String find(String keyword) {
         ArrayList<Task> found = new ArrayList<>();
         for (Task t : taskList) {
             if (t.description.contains(keyword)) {
                 found.add(t);
             }
         }
-        Ui.find(found);
+        return Ui.find(found);
     }
 }

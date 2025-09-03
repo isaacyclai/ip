@@ -1,8 +1,8 @@
 package tom;
 
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.Optional;
-import java.util.Scanner;
 
 import javafx.util.Pair;
 
@@ -10,6 +10,7 @@ import javafx.util.Pair;
  * Represents a chatbot to help with keeping track of tasks to be done.
  */
 public class Tom {
+    private static final String DEFAULT_FILE_PATH = "./data/tom.txt";
     private Storage storage;
     private TaskList taskList;
     private Ui ui;
@@ -20,62 +21,53 @@ public class Tom {
         taskList = new TaskList(storage.load());
     }
 
-    public void run() throws TomException, IOException {
-        ui.greet();
-        while (true) {
-            Scanner sc = new Scanner(System.in);
-            String input = sc.nextLine();
-
-            Parser parser = new Parser(input);
-            Pair<Pair<String, String>, Pair<Optional<Integer>, Optional<Task>>> p = parser.parse();
-            String command = p.getKey().getKey();
-            int idx = p.getValue().getKey().orElse(-1);
-            Task task = p.getValue().getValue().orElse(new Task("NA"));
-
-            Storage.writeLines(taskList.getTasks());
-
-            switch(command) {
-            case "bye":
-                Storage.writeLines(taskList.getTasks());
-                ui.bye();
-                break;
-            case "list":
-                taskList.list();
-                Storage.writeLines(taskList.getTasks());
-                break;
-            case "mark":
-                taskList.mark(idx);
-                Storage.writeLines(taskList.getTasks());
-                break;
-            case "unmark":
-                taskList.unmark(idx);
-                Storage.writeLines(taskList.getTasks());
-                break;
-            case "todo", "deadline", "event":
-                taskList.add(task);
-                Storage.writeLines(taskList.getTasks());
-                ui.add(task, taskList);
-                break;
-            case "delete":
-                taskList.delete(idx);
-                Storage.writeLines(taskList.getTasks());
-                break;
-            case "find":
-                taskList.find(p.getKey().getValue());
-                Storage.writeLines(taskList.getTasks());
-                break;
-            default:
-                throw new TomException("Unknown command");
-            }
-            if (command.equals("bye")) {
-                break;
-            }
-        }
+    public Tom() throws TomException, IOException {
+        this(Paths.get(DEFAULT_FILE_PATH));
     }
 
-    public static void main(String[] args) throws TomException, IOException {
-        String home = System.getProperty("user.home");
-        java.nio.file.Path path = java.nio.file.Paths.get(home, "ip", "data", "tom.txt");
-        new Tom(path).run();
+    public String run(String input) throws TomException, IOException {
+        Parser parser = new Parser(input);
+        Pair<Pair<String, String>, Pair<Optional<Integer>, Optional<Task>>> p = parser.parse();
+        String command = p.getKey().getKey();
+        int idx = p.getValue().getKey().orElse(-1);
+        Task task = p.getValue().getValue().orElse(new Task("NA"));
+
+        Storage.writeLines(taskList.getTasks());
+
+        String response = "";
+
+        switch(command) {
+        case "bye":
+            response = ui.bye();
+            Storage.writeLines(taskList.getTasks());
+            break;
+        case "list":
+            response = taskList.list();
+            Storage.writeLines(taskList.getTasks());
+            break;
+        case "mark":
+            response = taskList.mark(idx);
+            Storage.writeLines(taskList.getTasks());
+            break;
+        case "unmark":
+            response = taskList.unmark(idx);
+            Storage.writeLines(taskList.getTasks());
+            break;
+        case "todo", "deadline", "event":
+            response = taskList.add(task);
+            Storage.writeLines(taskList.getTasks());
+            break;
+        case "delete":
+            response = taskList.delete(idx);
+            Storage.writeLines(taskList.getTasks());
+            break;
+        case "find":
+            response = taskList.find(p.getKey().getValue());
+            Storage.writeLines(taskList.getTasks());
+            break;
+        default:
+            throw new TomException("Unknown command");
+        }
+        return response;
     }
 }
