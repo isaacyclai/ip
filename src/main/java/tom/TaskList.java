@@ -28,18 +28,21 @@ public class TaskList {
     }
 
     public String delete(int n) {
+        assert n > 0 : "Index should be positive!";
         Task removed = taskList.get(n - 1);
         taskList.remove(removed);
         return Ui.delete(removed, taskList);
     }
 
     public String mark(int n) {
+        assert n > 0 : "Index should be positive!";
         Task cur = taskList.get(n - 1);
         cur.mark();
         return Ui.mark(cur);
     }
 
     public String unmark(int n) {
+        assert n > 0 : "Index should be positive!";
         Task cur = taskList.get(n - 1);
         cur.unmark();
         return Ui.unmark(cur);
