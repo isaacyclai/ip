@@ -9,6 +9,10 @@ public class Task {
     protected String id;
     protected boolean isPrioritised;
 
+    /**
+     * Constructs a Task.
+     * @param description Task description.
+     */
     public Task(String description) {
         this.description = description;
         this.isDone = false;

@@ -9,6 +9,11 @@ import java.time.format.DateTimeFormatter;
 public class Deadline extends Task {
     protected LocalDateTime endDateAndTime;
 
+    /**
+     * Constructs a Deadline.
+     * @param description Task description.
+     * @param by Time by which the task must be completed.
+     */
     public Deadline(String description, LocalDateTime by) {
         super(description);
         super.id = "D";

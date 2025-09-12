@@ -17,16 +17,29 @@ public class TaskList {
         return taskList;
     }
 
+    /**
+     * Message to be displayed for list command.
+     * @return String for the UI to print.
+     * @throws IOException If an error occurs when writing to the txt file.
+     */
     public String list() throws IOException {
         Storage.writeLines(taskList);
         return Ui.list(taskList);
     }
 
+    /**
+     * Message to be displayed for add command.
+     * @return String for the UI to print.
+     */
     public String add(Task task) {
         taskList.add(task);
         return Ui.add(task, this);
     }
 
+    /**
+     * Message to be displayed for delete command.
+     * @return String for the UI to print.
+     */
     public String delete(int n) {
         assert n > 0 : "Index should be positive!";
         Task removed = taskList.get(n - 1);
@@ -34,6 +47,10 @@ public class TaskList {
         return Ui.delete(removed, taskList);
     }
 
+    /**
+     * Message to be displayed for mark command.
+     * @return String for the UI to print.
+     */
     public String mark(int n) {
         assert n > 0 : "Index should be positive!";
         Task cur = taskList.get(n - 1);
@@ -41,6 +58,10 @@ public class TaskList {
         return Ui.mark(cur);
     }
 
+    /**
+     * Message to be displayed for unmark command.
+     * @return String for the UI to print.
+     */
     public String unmark(int n) {
         assert n > 0 : "Index should be positive!";
         Task cur = taskList.get(n - 1);
@@ -48,12 +69,21 @@ public class TaskList {
         return Ui.unmark(cur);
     }
 
+    /**
+     * Message to be displayed for prioritise command.
+     * @return String for the UI to print.
+     */
     public String prioritise(int n) {
         assert n > 0 : "Index should be positive!";
         Task cur = taskList.get(n - 1);
         cur.prioritise();
         return Ui.prioritise(cur);
     }
+
+    /**
+     * Message to be displayed for find command.
+     * @return String for the UI to print.
+     */
     public String find(String keyword) {
         ArrayList<Task> found = new ArrayList<>();
         for (Task t : taskList) {

@@ -13,6 +13,10 @@ public class Parser {
     private final String command;
     private final String[] words;
 
+    /**
+     * Constructs a Parser.
+     * @param input User input.
+     */
     public Parser(String input) {
         String[] line = input.split("\\s+", 2);
         this.command = line[0].strip();

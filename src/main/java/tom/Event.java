@@ -10,6 +10,12 @@ public class Event extends Task {
     private final LocalDateTime from;
     private final LocalDateTime to;
 
+    /**
+     * Constructs an Event.
+     * @param description Task description.
+     * @param from Time at which the Event begins.
+     * @param to Time at which the Event ends.
+     */
     public Event(String description, LocalDateTime from, LocalDateTime to) {
         super(description);
         super.id = "E";

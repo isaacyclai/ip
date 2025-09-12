@@ -15,6 +15,12 @@ public class Tom {
     private TaskList taskList;
     private Ui ui;
 
+    /**
+     * Constructs Tom.
+     * @param path Path for txt file that stores previous tasks.
+     * @throws TomException If unknown command is given.
+     * @throws IOException If input is in an incorrect format.
+     */
     public Tom(java.nio.file.Path path) throws TomException, IOException {
         ui = new Ui();
         storage = new Storage(path);
@@ -25,6 +31,13 @@ public class Tom {
         this(Paths.get(DEFAULT_FILE_PATH));
     }
 
+    /**
+     * Runs the chatbot.
+     * @param input Parsed user input.
+     * @return String for the UI to display.
+     * @throws TomException If unknown command is given.
+     * @throws IOException If input is in an incorrect format.
+     */
     public String run(String input) throws TomException, IOException {
         Parser parser = new Parser(input);
         Pair<Pair<String, String>, Pair<Optional<Integer>, Optional<Task>>> p = parser.parse();
