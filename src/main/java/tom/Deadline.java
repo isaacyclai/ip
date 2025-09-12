@@ -23,7 +23,7 @@ public class Deadline extends Task {
 
     @Override
     public String toString() {
-        return "[D]" + super.toString() + " (by: "
+        return super.showPriority() + "[D]" + super.toString() + " (by: "
                 + endDateAndTime.format(DateTimeFormatter.ofPattern("MMM dd yyyy, hh:mm a")) + ")";
     }
 }

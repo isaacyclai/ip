@@ -7,11 +7,13 @@ public class Task {
     protected String description;
     protected boolean isDone;
     protected String id;
+    protected boolean isPrioritised;
 
     public Task(String description) {
         this.description = description;
         this.isDone = false;
         this.id = "T";
+        this.isPrioritised = false;
     }
 
     public String getStatusIcon() {
@@ -24,12 +26,21 @@ public class Task {
     public void unmark() {
         this.isDone = false;
     }
+
+    public void prioritise() {
+        this.isPrioritised = true;
+    }
+
+    public String showPriority() {
+        return isPrioritised ? "*" : "";
+    }
+
     /**
      * Returns a description of the Task in the correct format to be stored in the text file.
      * @return Formatted string.
      */
     public String saveDesc() {
-        return id + " | " + (isDone ? "1 | " : "0 | ") + description;
+        return showPriority() + id + " | " + (isDone ? "1 | " : "0 | ") + description;
     }
     @Override
     public String toString() {

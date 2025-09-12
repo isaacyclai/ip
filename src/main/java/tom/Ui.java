@@ -73,6 +73,15 @@ public class Ui {
     }
 
     /**
+     * Prints message to be displayed when a task is prioritised.
+     * @param task Task to be prioritised.
+     */
+    public static String prioritise(Task task) {
+        String response = "OK, I've given this task high priority:";
+        return response + "\n  [ ] " + task.description;
+    }
+
+    /**
      * Prints message to be displayed when tasks are found.
      * @param ls List of tasks found.
      */

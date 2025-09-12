@@ -53,6 +53,10 @@ public class Tom {
             response = taskList.unmark(idx);
             Storage.writeLines(taskList.getTasks());
             break;
+        case "prioritise":
+            response = taskList.prioritise(idx);
+            Storage.writeLines(taskList.getTasks());
+            break;
         case "todo", "deadline", "event":
             response = taskList.add(task);
             Storage.writeLines(taskList.getTasks());

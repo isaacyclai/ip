@@ -48,6 +48,12 @@ public class TaskList {
         return Ui.unmark(cur);
     }
 
+    public String prioritise(int n) {
+        assert n > 0 : "Index should be positive!";
+        Task cur = taskList.get(n - 1);
+        cur.prioritise();
+        return Ui.prioritise(cur);
+    }
     public String find(String keyword) {
         ArrayList<Task> found = new ArrayList<>();
         for (Task t : taskList) {

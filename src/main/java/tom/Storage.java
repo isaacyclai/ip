@@ -43,12 +43,18 @@ public class Storage {
                 if (arr[1].strip().equals("1")) {
                     tmp.mark();
                 }
+                if (arr[0].charAt(0) == '*') {
+                    tmp.prioritise();
+                }
                 taskList.add(tmp);
             } else if (arr.length == 4) {
                 LocalDateTime by = LocalDateTime.parse(arr[3].strip(), outputFormatter);
                 Deadline tmp = new Deadline(arr[2].strip(), by);
                 if (arr[1].strip().equals("1")) {
                     tmp.mark();
+                }
+                if (arr[0].charAt(0) == '*') {
+                    tmp.prioritise();
                 }
                 taskList.add(tmp);
             } else if (arr.length == 5) {
@@ -57,6 +63,9 @@ public class Storage {
                 Event tmp = new Event(arr[2].strip(), from, to);
                 if (arr[1].strip().equals("1")) {
                     tmp.mark();
+                }
+                if (arr[0].charAt(0) == '*') {
+                    tmp.prioritise();
                 }
                 taskList.add(tmp);
             } else {

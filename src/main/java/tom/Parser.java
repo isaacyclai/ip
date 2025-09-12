@@ -61,6 +61,15 @@ public class Parser {
             }
             idx = Optional.of(Integer.parseInt(words[1].strip()));
             break;
+        case "prioritise":
+            if (words.length != 2) {
+                throw new TomException("1 task required to prioritise");
+            }
+            if (!Character.isDigit(words[1].strip().charAt(0))) {
+                throw new TomException("Task must be a positive integer");
+            }
+            idx = Optional.of(Integer.parseInt(words[1].strip()));
+            break;
         case "todo":
             if (words.length != 2) {
                 throw new TomException("Todo requires a description");
