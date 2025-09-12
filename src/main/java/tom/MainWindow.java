@@ -43,6 +43,18 @@ public class MainWindow extends AnchorPane {
     }
 
     /**
+     * Pauses for 3 seconds before closing the chat window.
+     */
+    public void delayExit() {
+        PauseTransition delay = new PauseTransition(Duration.seconds(3));
+        delay.setOnFinished(e -> {
+            Platform.exit();
+            System.exit(0);
+        });
+        delay.play();
+    }
+
+    /**
      * Creates two dialog boxes, one echoing user input and the other containing Tom's reply and then appends them to
      * the dialog container. Clears the user input after processing.
      */
@@ -57,12 +69,7 @@ public class MainWindow extends AnchorPane {
         userInput.clear();
 
         if (input.strip().equals("bye")) {
-            PauseTransition delay = new PauseTransition(Duration.seconds(3));
-            delay.setOnFinished(e -> {
-                Platform.exit();
-                System.exit(0);
-            });
-            delay.play();
+            delayExit();
         }
     }
 }
