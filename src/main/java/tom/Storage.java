@@ -37,6 +37,7 @@ public class Storage {
         String line = null;
         while ((line = br.readLine()) != null) {
             String[] arr = line.split("\\|"); // type | marked | desc | by/from | to
+            assert arr.length >= 3 : "Line has too many arguments!";
             if (arr.length == 3) {
                 Todo tmp = new Todo(arr[2].strip());
                 if (arr[1].strip().equals("1")) {
