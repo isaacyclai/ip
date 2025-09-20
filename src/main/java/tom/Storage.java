@@ -40,33 +40,18 @@ public class Storage {
             assert arr.length >= 3 : "Line has too many arguments!";
             if (arr.length == 3) {
                 Todo tmp = new Todo(arr[2].strip());
-                if (arr[1].strip().equals("1")) {
-                    tmp.mark();
-                }
-                if (arr[0].charAt(0) == '*') {
-                    tmp.prioritise();
-                }
+                checkMarkedOrPrioritised(arr, tmp);
                 taskList.add(tmp);
             } else if (arr.length == 4) {
                 LocalDateTime by = LocalDateTime.parse(arr[3].strip(), outputFormatter);
                 Deadline tmp = new Deadline(arr[2].strip(), by);
-                if (arr[1].strip().equals("1")) {
-                    tmp.mark();
-                }
-                if (arr[0].charAt(0) == '*') {
-                    tmp.prioritise();
-                }
+                checkMarkedOrPrioritised(arr, tmp);
                 taskList.add(tmp);
             } else if (arr.length == 5) {
                 LocalDateTime from = LocalDateTime.parse(arr[3].strip(), outputFormatter);
                 LocalDateTime to = LocalDateTime.parse(arr[4].strip(), outputFormatter);
                 Event tmp = new Event(arr[2].strip(), from, to);
-                if (arr[1].strip().equals("1")) {
-                    tmp.mark();
-                }
-                if (arr[0].charAt(0) == '*') {
-                    tmp.prioritise();
-                }
+                checkMarkedOrPrioritised(arr, tmp);
                 taskList.add(tmp);
             } else {
                 throw new TomException("Line is not in the correct format");
@@ -86,5 +71,14 @@ public class Storage {
             fw.write(l.saveDesc() + "\n");
         }
         fw.close();
+    }
+
+    private void checkMarkedOrPrioritised(String[] arr, Task tmp) throws TomException {
+        if (arr[1].strip().equals("1")) {
+            tmp.mark();
+        }
+        if (arr[0].charAt(0) == '*') {
+            tmp.prioritise();
+        }
     }
 }

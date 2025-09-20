@@ -11,22 +11,28 @@ Tasks are saved in format
 ```
 where `PRIORITY` is either empty (low priority) or an asterisk (high priority), `TASK_TYPE` is the first 
 letter of the respective task names, and `MARKED` is either 1 (marked) or 0 (unmarked). `DATES` are the
-deadline, start date/time and end date/time where applicable.
+deadline, start date/time and end date/time when applicable.
 
 ## Adding Todo items: `todo`
 Adds a Todo item (i.e. item with no associated dates) to the list. 
 
 Format: `todo DESCRIPTION`
 
+Example: `todo borrow book`
+
 ## Adding Deadlines: `deadline`
 Adds a Deadline item to the list. `DEADLINE` should be in "yyyy-MM-dd HHmm" format.
 
 Format: `deadline DESCRIPTION /by DEADLINE`
 
+Example: `deadline submit project proposal /by 2025-09-15 1700`
+
 ## Adding Events: `event`
 Adds an Event item to the list. `START` and `END` should be in "yyyy-MM-dd HHmm" format.
 
 Format: `deadline DESCRIPTION /from START /to END`
+
+Example: `event attend concert /from 2025-08-29 1930 /to 2025-08-29 2200`
 
 ## Marking tasks: `mark`
 Marks the `INDEX`-th task on the list as done.
@@ -49,9 +55,11 @@ Deletes the `INDEX`-th task on the list.
 Format: `delete INDEX`
 
 ## Finding a task: `find`
-Shows all tasks in the list with description containing `KEYWORD`.
+Shows all tasks in the list with description containing `KEYWORD`. Search is case-sensitive.
 
 Format: `find KEYWORD`
+
+Example: `find doctor` returns all tasks with description containing the word "doctor".
 
 ## Listing all tasks: `list`
 Shows a list of all tasks that are currently in the todo list.

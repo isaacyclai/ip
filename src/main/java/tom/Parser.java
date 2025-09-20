@@ -38,40 +38,14 @@ public class Parser {
         String args = "";
         switch(command) {
         case "bye":
-            if (words.length != 1) {
-                throw new TomException("Bye takes no description");
-            }
+            validateArgs(words.length != 1, "Bye takes no description");
             break;
         case "list":
-            if (words.length != 1) {
-                throw new TomException("list takes no description");
-            }
+            validateArgs(words.length != 1, "List takes no description");
             break;
-        case "mark":
-            if (words.length != 2) {
-                throw new TomException("1 task required to mark");
-            }
-            if (!Character.isDigit(words[1].strip().charAt(0))) {
-                throw new TomException("Task must be a positive integer");
-            }
-            idx = Optional.of(Integer.parseInt(words[1].strip()));
-            break;
-        case "unmark":
-            if (words.length != 2) {
-                throw new TomException("1 task required to unmark");
-            }
-            if (!Character.isDigit(words[1].strip().charAt(0))) {
-                throw new TomException("Task must be a positive integer");
-            }
-            idx = Optional.of(Integer.parseInt(words[1].strip()));
-            break;
-        case "prioritise":
-            if (words.length != 2) {
-                throw new TomException("1 task required to prioritise");
-            }
-            if (!Character.isDigit(words[1].strip().charAt(0))) {
-                throw new TomException("Task must be a positive integer");
-            }
+        case "mark", "unmark", "prioritise", "delete":
+            validateArgs(words.length != 2, "1 task required to " + command);
+            validateArgs(!Character.isDigit(words[1].strip().charAt(0)), "Task must be a positive integer");
             idx = Optional.of(Integer.parseInt(words[1].strip()));
             break;
         case "todo":
@@ -81,36 +55,21 @@ public class Parser {
             task = Optional.of(new Todo(words[1].strip()));
             break;
         case "deadline":
-            if (words.length != 2) {
-                throw new TomException("Deadline requires a date by which the task must be completed");
-            }
+            validateArgs(words.length != 2,
+                    "Deadline requires a date by which the task must be completed");
             String[] parts = words[1].split("/by");
-            if (parts.length != 2) {
-                throw new TomException("Deadline requires a date by which the task must be completed");
-            }
+            validateArgs(parts.length != 2,
+                    "Deadline requires a date by which the task must be completed");
             LocalDateTime by = LocalDateTime.parse(parts[1].strip(), inputFormatter);
             task = Optional.of(new Deadline(parts[0].strip(), by));
             break;
         case "event":
-            if (words.length != 2) {
-                throw new TomException("Event requires a description, start and end dates");
-            }
+            validateArgs(words.length != 2, "Event requires a description, start and end dates");
             String[] parts1 = words[1].split("/from|/to");
-            if (parts1.length != 3) {
-                throw new TomException("Event requires a description, start and end dates");
-            }
+            validateArgs(parts1.length != 3, "Event requires a description, start and end dates");
             LocalDateTime from = LocalDateTime.parse(parts1[1].strip(), inputFormatter);
             LocalDateTime to = LocalDateTime.parse(parts1[2].strip(), inputFormatter);
             task = Optional.of(new Event(parts1[0].strip(), from, to));
-            break;
-        case "delete":
-            if (words.length != 2) {
-                throw new TomException("1 task required to delete");
-            }
-            if (!Character.isDigit(words[1].strip().charAt(0))) {
-                throw new TomException("Task must be a positive integer");
-            }
-            idx = Optional.of(Integer.parseInt(words[1].strip()));
             break;
         case "find":
             args = words[1].strip();
@@ -119,5 +78,11 @@ public class Parser {
             throw new TomException("Command not found!");
         }
         return new Pair<>(new Pair<>(command, args), new Pair<>(idx, task));
+    }
+
+    private void validateArgs(boolean condition, String message) throws TomException {
+        if (condition) {
+            throw new TomException(message);
+        }
     }
 }

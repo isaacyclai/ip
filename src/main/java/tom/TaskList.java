@@ -18,7 +18,7 @@ public class TaskList {
     }
 
     /**
-     * Message to be displayed for list command.
+     * Returns the message to be displayed for list command.
      * @return String for the UI to print.
      * @throws IOException If an error occurs when writing to the txt file.
      */
@@ -28,7 +28,7 @@ public class TaskList {
     }
 
     /**
-     * Message to be displayed for add command.
+     * Returns the message to be displayed for add command.
      * @return String for the UI to print.
      */
     public String add(Task task) {
@@ -37,7 +37,7 @@ public class TaskList {
     }
 
     /**
-     * Message to be displayed for delete command.
+     * Returns the message to be displayed for delete command.
      * @return String for the UI to print.
      */
     public String delete(int n) {
@@ -48,7 +48,7 @@ public class TaskList {
     }
 
     /**
-     * Message to be displayed for mark command.
+     * Returns the message to be displayed for mark command.
      * @return String for the UI to print.
      */
     public String mark(int n) {
@@ -59,7 +59,7 @@ public class TaskList {
     }
 
     /**
-     * Message to be displayed for unmark command.
+     * Returns the message to be displayed for unmark command.
      * @return String for the UI to print.
      */
     public String unmark(int n) {
@@ -70,7 +70,7 @@ public class TaskList {
     }
 
     /**
-     * Message to be displayed for prioritise command.
+     * Returns the message to be displayed for prioritise command.
      * @return String for the UI to print.
      */
     public String prioritise(int n) {
@@ -81,7 +81,7 @@ public class TaskList {
     }
 
     /**
-     * Message to be displayed for find command.
+     * Returns the message to be displayed for find command.
      * @return String for the UI to print.
      */
     public String find(String keyword) {
