@@ -4,7 +4,8 @@
 
 Behold, the world's worst chatbot. 
 
-Reads any existing tasks from `data/tom.txt` and saves new tasks (and updates to them) to the same text file.
+Reads any existing tasks from `data/tom.txt` and saves new tasks (and updates to them) to the same text file. 
+Directory and text file will be created if they don't already exist.
 Tasks are saved in format
 ```
 [PRIORITY] TASK_TYPE | MARKED | DESCRIPTION | [DATES]
