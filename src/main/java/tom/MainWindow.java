@@ -59,7 +59,7 @@ public class MainWindow extends AnchorPane {
      * the dialog container. Clears the user input after processing.
      */
     @FXML
-    private void handleUserInput() throws TomException, IOException {
+    private void handleUserInput() {
         String input = userInput.getText();
         String response = tom.run(input);
         dialogContainer.getChildren().addAll(

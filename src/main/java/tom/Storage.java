@@ -22,13 +22,12 @@ public class Storage {
     /**
      * Loads the list of tasks (if any) from the existing text file.
      * @return Existing task list.
-     * @throws TomException If the text file exists and is corrupted.
      * @throws IOException If the FileReader encounters an exception.
      */
-    public ArrayList<Task> load() throws TomException, IOException {
+    public ArrayList<Task> load() throws IOException {
         File file = path.toFile();
         file.getParentFile().mkdirs();
-        file.createNewFile();
+        file.createNewFile(); // Should not throw any IOException since the directory is created above
 
         BufferedReader br = new BufferedReader(new FileReader(file));
         ArrayList<Task> taskList = new ArrayList<>();
@@ -37,7 +36,6 @@ public class Storage {
         String line = null;
         while ((line = br.readLine()) != null) {
             String[] arr = line.split("\\|"); // type | marked | desc | by/from | to
-            assert arr.length >= 3 : "Line has too many arguments!";
             if (arr.length == 3) {
                 Todo tmp = new Todo(arr[2].strip());
                 checkMarkedOrPrioritised(arr, tmp);
@@ -53,8 +51,6 @@ public class Storage {
                 Event tmp = new Event(arr[2].strip(), from, to);
                 checkMarkedOrPrioritised(arr, tmp);
                 taskList.add(tmp);
-            } else {
-                throw new TomException("Line is not in the correct format");
             }
         }
         return taskList;
@@ -73,7 +69,7 @@ public class Storage {
         fw.close();
     }
 
-    private void checkMarkedOrPrioritised(String[] arr, Task tmp) throws TomException {
+    private void checkMarkedOrPrioritised(String[] arr, Task tmp) {
         if (arr[1].strip().equals("1")) {
             tmp.mark();
         }

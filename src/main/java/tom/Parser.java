@@ -2,6 +2,7 @@ package tom;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.Optional;
 
 import javafx.util.Pair;
@@ -44,32 +45,23 @@ public class Parser {
             validateArgs(words.length != 1, "List takes no description");
             break;
         case "mark", "unmark", "prioritise", "delete":
-            validateArgs(words.length != 2, "1 task required to " + command);
-            validateArgs(!Character.isDigit(words[1].strip().charAt(0)), "Task must be a positive integer");
-            idx = Optional.of(Integer.parseInt(words[1].strip()));
+            idx = parseNumeric();
             break;
         case "todo":
             if (words.length != 2) {
                 throw new TomException("Todo requires a description");
             }
-            task = Optional.of(new Todo(words[1].strip()));
+            String description = words[1].strip();
+            if (description.contains("|")) {
+                throw new TomException("Description contains invalid characters");
+            }
+            task = Optional.of(new Todo(description));
             break;
         case "deadline":
-            validateArgs(words.length != 2,
-                    "Deadline requires a date by which the task must be completed");
-            String[] parts = words[1].split("/by");
-            validateArgs(parts.length != 2,
-                    "Deadline requires a date by which the task must be completed");
-            LocalDateTime by = LocalDateTime.parse(parts[1].strip(), inputFormatter);
-            task = Optional.of(new Deadline(parts[0].strip(), by));
+            task = parseDeadline(inputFormatter);
             break;
         case "event":
-            validateArgs(words.length != 2, "Event requires a description, start and end dates");
-            String[] parts1 = words[1].split("/from|/to");
-            validateArgs(parts1.length != 3, "Event requires a description, start and end dates");
-            LocalDateTime from = LocalDateTime.parse(parts1[1].strip(), inputFormatter);
-            LocalDateTime to = LocalDateTime.parse(parts1[2].strip(), inputFormatter);
-            task = Optional.of(new Event(parts1[0].strip(), from, to));
+            task = parseEvent(inputFormatter);
             break;
         case "find":
             args = words[1].strip();
@@ -83,6 +75,53 @@ public class Parser {
     private void validateArgs(boolean condition, String message) throws TomException {
         if (condition) {
             throw new TomException(message);
+        }
+    }
+    private Optional<Integer> parseNumeric() throws TomException {
+        validateArgs(words.length != 2, "1 task required to " + command);
+        try {
+            return Optional.of(Integer.parseInt(words[1].strip()));
+        } catch (NumberFormatException e) {
+            throw new TomException("Index is not a number!");
+        }
+    }
+    private Optional<Task> parseDeadline(DateTimeFormatter inputFormatter) throws TomException {
+        validateArgs(words.length != 2,
+                "Deadline requires a date by which the task must be completed");
+        String[] parts = words[1].split("/by");
+        validateArgs(parts.length != 2,
+                "Deadline requires a date by which the task must be completed");
+        String description = parts[0].strip();
+        if (description.contains("|")) {
+            throw new TomException("Description contains invalid characters");
+        }
+        try {
+            LocalDateTime by = LocalDateTime.parse(parts[1].strip(), inputFormatter);
+            return Optional.of(new Deadline(description, by));
+        } catch (DateTimeParseException e) {
+            throw new TomException("Deadline is not a valid date!");
+        }
+    }
+    private Optional<Task> parseEvent(DateTimeFormatter inputFormatter) throws TomException {
+        validateArgs(words.length != 2, "Event requires a description, start and end dates");
+        if (words[1].indexOf("/from") > words[1].indexOf("/to")) {
+            throw new TomException("Event requires a date by which the task must be completed");
+        }
+        String[] parts1 = words[1].split("/from|/to");
+        validateArgs(parts1.length != 3, "Event requires a description, start and end dates");
+        String description = parts1[0].strip();
+        if (description.contains("|")) {
+            throw new TomException("Description contains invalid characters");
+        }
+        try {
+            LocalDateTime from = LocalDateTime.parse(parts1[1].strip(), inputFormatter);
+            LocalDateTime to = LocalDateTime.parse(parts1[2].strip(), inputFormatter);
+            if (to.isBefore(from)) {
+                throw new TomException("Event must start before it ends!");
+            }
+            return Optional.of(new Event(description, from, to));
+        } catch (DateTimeParseException e) {
+            throw new TomException("Invalid date format!");
         }
     }
 }

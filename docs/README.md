@@ -31,7 +31,7 @@ Example: `deadline submit project proposal /by 2025-09-15 1700`
 ## Adding Events: `event`
 Adds an Event item to the list. `START` and `END` should be in "yyyy-MM-dd HHmm" format.
 
-Format: `deadline DESCRIPTION /from START /to END`
+Format: `event DESCRIPTION /from START /to END`
 
 Example: `event attend concert /from 2025-08-29 1930 /to 2025-08-29 2200`
 

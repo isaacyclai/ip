@@ -15,7 +15,7 @@ public class Main extends Application {
 
     private Tom tom = new Tom();
 
-    public Main() throws TomException, IOException {
+    public Main() throws IOException {
     }
 
     @Override

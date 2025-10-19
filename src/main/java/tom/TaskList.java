@@ -40,8 +40,13 @@ public class TaskList {
      * Returns the message to be displayed for delete command.
      * @return String for the UI to print.
      */
-    public String delete(int n) {
-        assert n > 0 : "Index should be positive!";
+    public String delete(int n) throws TomException {
+        if (n <= 0) {
+            throw new TomException("Index must be a positive integer");
+        }
+        if (n > taskList.size()) {
+            throw new TomException("Index should be less than the number of tasks!");
+        }
         Task removed = taskList.get(n - 1);
         taskList.remove(removed);
         return Ui.delete(removed, taskList);
@@ -51,8 +56,13 @@ public class TaskList {
      * Returns the message to be displayed for mark command.
      * @return String for the UI to print.
      */
-    public String mark(int n) {
-        assert n > 0 : "Index should be positive!";
+    public String mark(int n) throws TomException {
+        if (n <= 0) {
+            throw new TomException("Index must be a positive integer");
+        }
+        if (n > taskList.size()) {
+            throw new TomException("Index should be less than the number of tasks!");
+        }
         Task cur = taskList.get(n - 1);
         cur.mark();
         return Ui.mark(cur);
@@ -62,8 +72,13 @@ public class TaskList {
      * Returns the message to be displayed for unmark command.
      * @return String for the UI to print.
      */
-    public String unmark(int n) {
-        assert n > 0 : "Index should be positive!";
+    public String unmark(int n) throws TomException {
+        if (n <= 0) {
+            throw new TomException("Index must be a positive integer");
+        }
+        if (n > taskList.size()) {
+            throw new TomException("Index should be less than the number of tasks!");
+        }
         Task cur = taskList.get(n - 1);
         cur.unmark();
         return Ui.unmark(cur);
@@ -73,8 +88,13 @@ public class TaskList {
      * Returns the message to be displayed for prioritise command.
      * @return String for the UI to print.
      */
-    public String prioritise(int n) {
-        assert n > 0 : "Index should be positive!";
+    public String prioritise(int n) throws TomException {
+        if (n <= 0) {
+            throw new TomException("Index must be a positive integer");
+        }
+        if (n > taskList.size()) {
+            throw new TomException("Index should be less than the number of tasks!");
+        }
         Task cur = taskList.get(n - 1);
         cur.prioritise();
         return Ui.prioritise(cur);
