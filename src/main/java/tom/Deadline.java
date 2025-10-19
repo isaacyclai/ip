@@ -2,6 +2,7 @@ package tom;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 
 /**
  * Represents a task that has to be completed by a certain date.
@@ -22,13 +23,15 @@ public class Deadline extends Task {
 
     @Override
     public String saveDesc() {
-        DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern("MMM dd yyyy, hh:mm a");
+        DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern("MMM dd yyyy, hh:mm a")
+                .withLocale(Locale.ENGLISH);
         return super.saveDesc() + " | " + endDateAndTime.format(outputFormatter);
     }
 
     @Override
     public String toString() {
         return super.showPriority() + "[D]" + super.toString() + " (by: "
-                + endDateAndTime.format(DateTimeFormatter.ofPattern("MMM dd yyyy, hh:mm a")) + ")";
+                + endDateAndTime.format(DateTimeFormatter.ofPattern("MMM dd yyyy, hh:mm a")
+                .withLocale(Locale.ENGLISH)) + ")";
     }
 }

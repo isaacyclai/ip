@@ -13,6 +13,6 @@ public class DeadlineTest {
         DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm");
         LocalDateTime by = LocalDateTime.parse("2025-10-19 1300", inputFormatter);
         Deadline dl = new Deadline("do something", by);
-        assertEquals("D | 0 | do something | Oct 19 2025, 01:00 pm", dl.saveDesc());
+        assertEquals("D | 0 | do something | Oct 19 2025, 01:00 PM", dl.saveDesc());
     }
 }

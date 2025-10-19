@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Locale;
 
 /**
  * Handles input from and output to the text file where the task list is saved.
@@ -31,7 +32,8 @@ public class Storage {
 
         BufferedReader br = new BufferedReader(new FileReader(file));
         ArrayList<Task> taskList = new ArrayList<>();
-        DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern("MMM dd yyyy, hh:mm a");
+        DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern("MMM dd yyyy, hh:mm a")
+                .withLocale(Locale.ENGLISH);
 
         String line = null;
         while ((line = br.readLine()) != null) {

@@ -2,6 +2,7 @@ package tom;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 
 /**
  * Represents a task that takes place from a given time to another.
@@ -25,7 +26,8 @@ public class Event extends Task {
 
     @Override
     public String saveDesc() {
-        DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern("MMM dd yyyy, hh:mm a");
+        DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern("MMM dd yyyy, hh:mm a")
+                .withLocale(Locale.ENGLISH);
         return super.saveDesc() + " | " + from.format(outputFormatter) + " | " + to.format(outputFormatter);
     }
 
